@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<p:dataTable var="record" value="#{helloBean.trackingNumber.listInfo}">
+	<p:column headerText="#{msg['tracker.jsf']}" sortBy="#{record.trackerId}">
+		<h:outputText value="#{record.trackerId}"/>
+	</p:column>
+
+	<p:column headerText="#{msg['date.jsf']}" sortBy="#{record.date}">
+		<h:outputText value="#{record.dateString}"/>
+	</p:column>
+
+	<p:column headerText="#{msg['message.jsf']}" sortBy="#{record.message}">
+		<h:outputText value="#{record.message}"/>
+	</p:column>
+</p:dataTable>
+<br/>
+<p:dataTable var="myVar" value="#{helloBean.trackingNumber.info.keySet()}">
+	<p:column>
+		<h:outputText value="#{msg['dataof.jsf']} #{myVar}"/>
+		<p:dataTable var="rec" value="#{helloBean.trackingNumber.info.get(myVar)}"
+					 rendered="#{not empty helloBean.trackingNumber.info.get(myVar)}">
+			<p:column headerText="#{msg['date.jsf']}">
+				<h:outputText value="#{rec.dateString}"/>
+			</p:column>
+
+			<p:column headerText="#{msg['message.jsf']}">
+				<h:outputText value="#{rec.message}"/>
+			</p:column>
+		</p:dataTable>
+		<h:outputText value="#{msg['dataNotFound.jsf']}" rendered="#{empty helloBean.trackingNumber.info.get(myVar)}"/>
+	</p:column>
+</p:dataTable>
+
+</html>

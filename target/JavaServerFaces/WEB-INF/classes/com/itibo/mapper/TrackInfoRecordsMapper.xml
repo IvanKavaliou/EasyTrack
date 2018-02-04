@@ -1,0 +1,39 @@
+<!DOCTYPE mapper     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itibo.mapper.TrackInfoRecordsMapper">
+
+
+    <delete id="delTrackInfoRecordsByIdTN"
+            parameterType="Integer"
+            >
+        DELETE FROM TrackInfoRecords WHERE TrackInfoRecords.idRelations =
+        (SELECT Relations.idRelations FROM Relations WHERE Relations.idTrackingNumbers = #{idTrackingNumbers})
+    </delete>
+
+    <select id="getTrackInfoRecords"
+            parameterType="Integer"
+            resultType="com.itibo.database.TrackInfoRecordsInfo"
+            >
+            SELECT *
+            FROM TrackInfoRecords
+            WHERE idRelations = #{idRelations}
+            </select>
+
+    <insert id="addTrackInfoRecords"
+            parameterType="com.itibo.database.TrackInfoRecordsInfo"
+            >
+              INSERT INTO TrackInfoRecords
+                          (idRelations, message, TrackInfoRecords.date)
+              VALUES      (#{idRelations}, #{message}, #{date})
+            </insert>
+
+    <select id="getTrackInfoRecordsId"
+            resultType="Integer"
+            parameterType="com.itibo.database.TrackInfoRecordsInfo"
+            >
+             SELECT idTrackInfoRecords
+             FROM TrackInfoRecords
+             WHERE idRelations = #{idRelations} AND message = #{message} AND TrackInfoRecords.date = #{date}
+            </select>
+</mapper>
+

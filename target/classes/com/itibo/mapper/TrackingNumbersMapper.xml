@@ -1,0 +1,55 @@
+<!DOCTYPE mapper     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itibo.mapper.TrackingNumbersMapper">
+
+        <select
+                id="getTrackingNumberInfoList"
+                resultType="com.itibo.database.TrackingNumberInfo"
+                >
+                SELECT *
+                FROM TrackingNumbers
+                WHERE
+                <if test="admin == false">
+                        idUsers = #{idUsers}
+                        AND
+                </if>
+                      trackingNumber LIKE  CONCAT('%',#{trackingNumber}, '%')
+        </select>
+
+        <insert
+                id="addTrackingNumber"
+                useGeneratedKeys="true"
+                keyProperty="idTrackingNumbers"
+                parameterType="com.itibo.database.TrackingNumberInfo"
+                >INSERT INTO TrackingNumbers(idUsers, trackingNumber, namePackage, cost) VALUES (#{idUsers}, #{trackingNumber}, #{namePackage}, #{cost})
+        </insert>
+
+        <delete id="delTrackingNumbers"
+                parameterType="Integer"
+                >DELETE FROM TrackingNumbers WHERE TrackingNumbers.idTrackingNumbers = #{idTrackingNumbers}
+                </delete>
+        
+        <update id="upTrackingNumbers"
+                parameterType="com.itibo.database.TrackingNumberInfo"
+                >UPDATE TrackingNumbers SET trackingNumber = #{trackingNumber},
+                                            namePackage = #{namePackage},
+                                            cost = #{cost}
+                                        WHERE idTrackingNumbers = #{idTrackingNumbers}
+                </update>
+
+        <select id="getTrackingNumberIdByName"
+                resultType="Integer"
+                >
+                SELECT idTrackingNumbers
+                FROM TrackingNumbers
+                WHERE (trackingNumber = #{trackingNumber} AND idUsers = #{idUsers})
+                </select>
+        
+        <select id="getTrackingNumberById"
+                resultType="com.itibo.database.TrackingNumberInfo"
+                parameterType="Integer"
+                >SELECT *
+                 FROM TrackingNumbers
+                 WHERE idTrackingNumbers = #{idTrackingNumbers}</select>
+
+</mapper>

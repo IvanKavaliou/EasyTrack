@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<p:messages autoUpdate="true"  closable="true" globalOnly="true" />
+<p:dataTable id="tableManage"
+			 var="record"
+			 value="#{infoBean.trackingNumberInfoList}"
+			 selection="#{infoBean.selectedTrackingNumberInfo}"
+			 rowKey="#{record.idTrackingNumbers}"
+			 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+			 paginator="true" rows="10">
+	<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+
+	<p:column headerText="#{msg['trackingNumber.jsf']}">
+		<p:inplace id="ajax" editor="true">
+			<p:ajax event="save" listener="#{infoBean.saveEvent(record)}" />
+			<p:inputMask value="#{record.trackingNumber}" mask="aa999999999**"/>
+		</p:inplace>
+	</p:column>
+
+	<p:column headerText="#{msg['namePackage.jsf']}">
+		<p:inplace editor="true">
+			<p:ajax event="save" listener="#{infoBean.saveEvent(record)}"/>
+			<h:inputText value="#{record.namePackage}"/>
+		</p:inplace>
+	</p:column>
+
+	<p:column headerText="#{msg['costPackage.jsf']}">
+		<p:inplace editor="true">
+			<p:ajax event="save" listener="#{infoBean.saveEvent(record)}"/>
+			<p:spinner id="costPackage" value="#{record.cost}" prefix="$" min="0" />
+		</p:inplace>
+	</p:column>
+
+	<p:column headerText="#{msg['trackers.jsf']}">
+		<p:accordionPanel id="trackersPanel" activeIndex="#{record.activeIndex}">
+			<p:tab title="#{msg['tracker.jsf']}">
+				<p:selectManyCheckbox id="menu"
+									  value="#{record.selectedTrackers}"
+									  label="#{msg['tracker.jsf']}"
+									  layout="grid"
+									  columns="1">
+					<f:selectItems value="#{infoBean.trackerList}"
+								   id="items"
+								   var="rec"
+								   itemValue="#{rec.idTrackers}"
+								   itemLabel="#{rec.name}"/>
+
+				</p:selectManyCheckbox>
+				<p:commandButton value="#{msg['save.jsf']}" actionListener="#{infoBean.saveTrackers(record)}" update="trackersPanel" icon="ui-icon-disk"/>
+				<p:commandButton value="#{msg['cancel.jsf']}" actionListener="#{infoBean.cancelSaveTrackers(record)}" update="trackersPanel"/>
+			</p:tab>
+		</p:accordionPanel>
+	</p:column>
+</p:dataTable>
+</html>

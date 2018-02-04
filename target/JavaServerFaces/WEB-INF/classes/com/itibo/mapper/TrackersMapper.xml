@@ -1,0 +1,25 @@
+<!DOCTYPE mapper     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itibo.mapper.TrackersMapper">
+    
+
+
+        <select id="getTrackers"
+                resultType="com.itibo.database.TrackerInfo"
+                >SELECT * FROM Trackers</select>
+
+        <select id="getTrackerById"
+                parameterType="Integer"
+                resultType="com.itibo.database.TrackerInfo"
+                >SELECT * FROM Trackers WHERE idTrackers = #{idTrackers}
+                </select>
+        
+        <select id="getIdTrackersByName"
+                parameterType="String"
+                resultType="Integer"
+                >SELECT idTrackers
+                 FROM Trackers
+                 WHERE Trackers.name = #{name}
+                </select>
+
+</mapper>

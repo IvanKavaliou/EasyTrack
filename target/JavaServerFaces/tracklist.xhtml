@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<!--Aordionpanel-->
+
+<p:dataTable id="tableTrackList"
+			 var="trackNumber"
+			 value="#{infoBean.trackingNumberInfoList}"
+			 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+			 paginator="true" rows="10">
+
+	<p:column >
+		<p:fieldset id="fieldSet" legend="#{trackNumber.trackingNumber} #{trackNumber.lastDateString} #{trackNumber.lastMessage}" toggleable="true" toggleSpeed="500" collapsed="true">
+			<p:commandButton value="#{msg['updateData.jsf']}" actionListener="#{infoBean.showData(trackNumber)}" update="abc" ajax="false"/>
+			<p:dataTable id="abc" var="record" value="#{trackNumber.tri}">
+				<p:column headerText="#{msg['tracker.jsf']}" sortBy="#{record.trackerName}">
+					<h:outputText value="#{record.trackerName}"/>
+				</p:column>
+
+				<p:column headerText="#{msg['date.jsf']}" sortBy="#{record.dateString}">
+					<h:outputText value="#{record.dateString}"/>
+				</p:column>
+
+				<p:column headerText="#{msg['message.jsf']}" sortBy="#{record.message}">
+					<h:outputText value="#{record.message}"/>
+				</p:column>
+			</p:dataTable>
+		</p:fieldset>
+	</p:column>
+
+</p:dataTable>
+
+</html>

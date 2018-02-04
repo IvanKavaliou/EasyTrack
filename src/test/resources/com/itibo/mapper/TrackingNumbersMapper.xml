@@ -1,0 +1,19 @@
+<!DOCTYPE mapper     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itibo.mapper.TrackingNumbersMapper">
+
+
+        <insert
+                id="insertTN"
+                useGeneratedKeys="true"
+                keyProperty="idTrackingNumbers"
+                >INSERT INTO TrackingNumbers(idUsers, trackingNumber, namePackage, cost) VALUES (#{idUsers}, #{trackingNumber}, #{namePackage}, #{cost})</insert>
+
+
+        <insert
+                id="addTrackingNumber"
+                useGeneratedKeys="true"
+                keyProperty="idTrackingNumbers"
+                parameterType="com.itibo.database.TrackingNumberInfo"
+                >INSERT INTO TrackingNumbers(idUsers, trackingNumber, namePackage, cost) VALUES (#{idUsers}, #{trackingNumber}, #{namePackage}, #{cost})</insert>
+</mapper>

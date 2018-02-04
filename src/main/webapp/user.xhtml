@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<p:outputLabel value="#{msg['search.jsf']}:"/>
+<p:inputText id="inputSearch" value="#{infoBean.searchTrackingNumber}">
+	<p:ajax event="keyup" listener="#{infoBean.updateTrackingNumberInfoList}" update="tabView:tableTrackList tabView:tableManage"/>
+</p:inputText>
+<p:commandButton value="#{msg['showAll.jsf']}" actionListener="#{infoBean.showAllTrackingNumbers}" update="tabView:tableTrackList tabView:tableManage inputSearch"/>
+
+<p:tabView id="tabView">
+	<p:tab title="#{msg['quickSearch.jsf']}">
+		<p:inputMask value="#{helloBean.track}" mask="aa999999999**" />
+		<p:commandButton value="#{msg['track.jsf']}" actionListener="#{helloBean.buttonAction}" ajax="false" />
+		<ui:include src="table.xhtml"/>
+	</p:tab>
+
+	<p:tab title="#{msg['trackList.jsf']}" id="trackListTab">
+		<ui:include src="tracklist.xhtml"/>
+	</p:tab>
+
+	<p:tab title="#{msg['manageList.jsf']}" id="menageListTab">
+		<ui:include src="menagelist.xhtml"/>
+	</p:tab>
+
+	<p:tab title="#{msg['settings.jsf']}">
+		<ui:include src="settings.xhtml"/>
+	</p:tab>
+
+	<c:if test="#{helloBean.admin}">
+		<p:tab title="#{msg['administration.jsf']}">
+
+		</p:tab>
+	</c:if>
+</p:tabView>
+
+</html>

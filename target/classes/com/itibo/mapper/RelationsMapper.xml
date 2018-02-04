@@ -1,0 +1,86 @@
+<!DOCTYPE mapper     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itibo.mapper.RelationsMapper">
+
+
+        <insert id="addRelationsEd"
+                parameterType="Integer"
+                >
+                INSERT IGNORE
+                INTO Relations (idTrackingNumbers, idTrackers)
+                VALUES (#{idTrackingNumbers},#{idTrackers})
+        </insert>
+
+
+        <insert id="addRelations"
+                parameterType="java.util.List"
+                >
+                INSERT
+                INTO Relations (idTrackingNumbers, idTrackers)
+                VALUES
+                        <foreach collection="list" item="item" index="index" open="(" close=")" separator="),(">
+                        #{item.idTrackingNumbers},#{item.idTrackers}
+                </foreach>
+        </insert>
+
+        <delete id="delRelations"
+                parameterType="Integer"
+                >
+                  DELETE FROM Relations WHERE Relations.idTrackingNumbers = #{idTrackingNumbers}
+        </delete>
+
+        <delete id="delRelationsTn"
+                parameterType="Integer"
+                >
+                DELETE
+                FROM Relations
+                WHERE idTrackingNumbers = #{idTrackingNumbers}
+                    AND
+                      idTrackers = #{idTrackers}
+                </delete>
+
+        <select id="getIdTrackersByIdTN"
+                parameterType="Integer"
+                resultType="Integer">
+                SELECT Relations.idTrackers FROM Relations
+                WHERE Relations.idTrackingNumbers = #{idTrackingNumbers}
+                </select>
+
+        <select id="getRelationsByIdTN"
+                parameterType="Integer"
+                resultType="com.itibo.database.RelationsInfo"
+                >
+                SELECT * FROM Relations WHERE idTrackingNumbers = #{idTrackingNumbers}
+                </select>
+
+        <insert id="delRelationsList"
+                parameterType="java.util.List"
+                >
+                DELETE FROM Relations WHERE
+                <foreach collection="list" item="item" index="index" open="(" close=")" separator="),(">
+                        #{item.idTrackingNumbers},#{item.idTrackers}
+                </foreach>
+        </insert>
+
+        <select id="getTrackerNameByIdRelation"
+                parameterType="Integer"
+                resultType="String"
+                >SELECT Trackers.name
+                 FROM Trackers
+                 WHERE Trackers.idTrackers =
+                         (SELECT Relations.idTrackers
+                          FROM Relations
+                          WHERE Relations.idRelations = #{idRelations})
+                  </select>
+
+        <select id="getIdRelations"
+                parameterType="Integer"
+                resultType="Integer"
+                >SELECT idRelations
+                 FROM Relations
+                 WHERE idTrackingNumbers = #{idTrackingNumbers}
+                      AND
+                       idTrackers = #{idTrackers}
+                </select>
+
+</mapper>

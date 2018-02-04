@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<p:toolbar>
+	<f:facet name="left">
+		<p:commandButton value="#{msg['add.jsf']}" icon="ui-icon-document" actionListener="#{helloBean.dlgAddShow}" ajax="false"/>
+
+		<p:commandButton  value="#{msg['delete.jsf']}" actionListener="#{infoBean.dlgDelShow}" icon="ui-icon-trash" ajax="false" />
+
+
+            <span class="ui-separator">
+                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+            </span>
+	</f:facet>
+</p:toolbar>
+
+
+	<ui:include src="tabletrackingnumberlist.xhtml"/>
+
+
+<p:dialog header="#{msg['isDel.jsf']}"
+		  rendered="#{infoBean.dlgDel}"
+		  id="dlgDel"
+		  widgetVar="del"
+		  modal="true"
+		  closable="false"
+		  resizable="false">
+
+	<p:commandButton value="#{msg['delete.jsf']}" actionListener="#{infoBean.delTrackingNumbers}" ajax="false"/>
+	<p:commandButton value="#{msg['cancel.jsf']}"  actionListener="#{infoBean.dlgDelHide}" ajax="false"/>
+</p:dialog>
+
+<p:dialog header="#{msg['addTrackNumber.jsf']}"
+		  rendered="#{helloBean.dlgAdd}"
+		  id="addDialog"
+		  widgetVar="add"
+		  modal="true"
+		  resizable="false"
+		  closable="false">
+	<p:messages autoUpdate="true"/>
+	<h:panelGrid columns="2" columnClasses="lable, value">
+		<h:outputText value="#{msg['trackingNumber.jsf']}"/>
+		<p:inputMask value="#{infoBean.trackNumber}" mask="aa999999999**"/>
+
+		<h:outputText value="#{msg['namePackage.jsf']}"/>
+		<p:inputText id="namePackage" value="#{infoBean.namePackage}" />
+
+		<h:outputText value="#{msg['costPackage.jsf']}"/>
+		<p:spinner id="costPackage" value="#{infoBean.costPackage}" prefix="$" min="0" />
+
+		<h:outputText value="#{msg['trackers.jsf']}"/>
+
+		<p:selectCheckboxMenu id="menu"
+							  value="#{infoBean.selectedTrackersList}"
+							  label="#{msg['tracker.jsf']}"
+							  filter="true"
+							  filterMatchMode="startsWith"
+							  panelStyle="width:250px">
+			<f:selectItems value="#{infoBean.trackerList}"
+						   var="rec"
+						   itemValue="#{rec.idTrackers}"
+						   itemLabel="#{rec.name}"
+							 />
+		</p:selectCheckboxMenu>
+
+		<p:commandButton value="#{msg['add.jsf']}" actionListener="#{infoBean.addTrackingNumbers}" update="tableManage tableTrackList"/>
+		<p:commandButton value="#{msg['cancel.jsf']}"  actionListener="#{helloBean.dlgAddHide}" update="addDialog"/>
+
+	</h:panelGrid>
+</p:dialog>
+
+</html>

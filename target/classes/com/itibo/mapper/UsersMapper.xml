@@ -1,0 +1,35 @@
+<!DOCTYPE mapper     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itibo.mapper.UsersMapper">
+    <select
+            id="getUserEmailById"
+            parameterType="java.lang.Integer"
+            resultType="String"
+     >SELECT email FROM Users WHERE idUsers = #{id};</select>
+
+    <select id="getUserByGoogleId"
+            parameterType="String"
+            resultType="com.itibo.database.UserInfo"
+            >SELECT * FROM Users WHERE googleid = #{googleid}</select>
+
+    <select
+            id="getUserIdByEmail"
+            parameterType="java.lang.String"
+            resultType="Integer"
+            >SELECT idUsers FROM Users WHERE email = #{email};</select>
+
+    <select id="getUserIdByGoogleId"
+            parameterType="java.lang.String"
+            resultType="Integer"
+            >SELECT idUsers FROM Users WHERE googleid = #{googleid}</select>
+
+    <insert
+            id="addUser"
+            parameterType="java.lang.String"
+            >INSERT INTO Users(email, googleid) VALUES (#{email}, #{googleid})</insert>
+
+    <update id="upEmail"
+            parameterType="com.itibo.database.UserInfo"
+            >UPDATE Users SET email = #{email} WHERE idUsers = #{idUsers} </update>
+
+</mapper>
